@@ -40,7 +40,9 @@ function _secondRequestToGetMonitoringStatus(){
 function _extractDataFromStatusXML(theStatusXML) {
     let oxml=new XML.REXML(theStatusXML.replace('<?xml version="1.0" encoding="utf-8" ?>',''));
     let batteryPercentage = oxml.rootElement.childElement("BatteryPercent").text;
+    let signalIcon = oxml.rootElement.childElement("SignalIcon").text;
     return {
-        "batteryPercentage" : batteryPercentage
+        "batteryPercentage" : batteryPercentage,
+        "signalIcon" : signalIcon
     };
 }

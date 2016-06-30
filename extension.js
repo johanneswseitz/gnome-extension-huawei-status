@@ -3,6 +3,8 @@ const Main = imports.ui.main;
 const Tweener = imports.ui.tweener;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const getData = Me.imports.huawei._getHuaweiStatus;
+const Mainloop = imports.mainloop;
+const Lang = imports.lang;
 
 let text, button;
 
@@ -10,7 +12,6 @@ function _hideHello() {
     Main.uiGroup.remove_actor(text);
     text = null;
 }
-
 
 function _showString(string){
     if (!text) {
@@ -29,15 +30,18 @@ function _showString(string){
                       onComplete: _hideHello });
 }
 
-function init() {
-    button = new St.Bin({ style_class: 'panel-button',
+function init(extensionMeta) {
+    button = new St.Bin({ style_class: 'mifi-button',
                           reactive: true,
                           can_focus: true,
                           x_fill: true,
-                          y_fill: true,
+                          y_fill: false,
                           track_hover: true });
-    let icon = new St.Icon({ icon_name: 'system-run-symbolic',
-                             style_class: 'system-status-icon' });
+    let theme = imports.gi.Gtk.IconTheme.get_default();
+    theme.append_search_path(extensionMeta.path + "/icons");
+
+    let icon = new St.Icon({ icon_name: 'signal-1',
+                         style_class: 'system-status-icon' });
     button.set_child(icon);
     button.connect('button-press-event', _showData);
 }
@@ -51,13 +55,23 @@ function _showData() {
     });
 }
 
+function _updateMenubar() {
+    getData().then(function(response) {
+        let signalStrength = response["signalIcon"];
+        let icon = new St.Icon({ icon_name: 'signal-' + signalStrength,
+                         style_class: 'system-status-icon' });
+        button.set_child(icon);
+    }, function(error) {
+        button.hide();
+    });
+}
+
 function enable() {
     Main.panel._rightBox.insert_child_at_index(button, 0);
-    //this._eventLoop = Mainloop.timeout_add_seconds(settings.get_int('update-time'), Lang.bind(this, function (){
-    //     this._querySensors();
-    // readd to update queue
-    //     return true;
-    //}));
+    _eventLoop = Mainloop.timeout_add_seconds(1, Lang.bind(this, function (){
+         _updateMenubar();
+         return true;
+    }));
 }
 
 function disable() {
