@@ -1,4 +1,7 @@
-
+.mifi-button {
+    padding:5px;
+    width: 30px;
+}
 .helloworld-label {
     font-size: 36px;
     font-weight: bold;

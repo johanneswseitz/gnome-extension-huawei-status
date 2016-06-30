@@ -34,7 +34,7 @@ function init(extensionMeta) {
     button = new St.Bin({ style_class: 'mifi-button',
                           reactive: true,
                           can_focus: true,
-                          x_fill: true,
+                          x_fill: false,
                           y_fill: false,
                           track_hover: true });
     let theme = imports.gi.Gtk.IconTheme.get_default();

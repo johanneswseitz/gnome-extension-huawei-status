@@ -1,0 +1,5 @@
+- Hide button when mifi is not connected
+- Better battery status
+- Battery charge status
+- Network type (4g, 3g, edge?)
+- Disable network backup during connection
