@@ -60,6 +60,7 @@ function _updateMenubar() {
         let signalStrength = response["signalIcon"];
         let icon = new St.Icon({ icon_name: 'signal-' + signalStrength,
                          style_class: 'system-status-icon' });
+        button.show();
         button.set_child(icon);
     }, function(error) {
         button.hide();
@@ -68,7 +69,7 @@ function _updateMenubar() {
 
 function enable() {
     Main.panel._rightBox.insert_child_at_index(button, 0);
-    _eventLoop = Mainloop.timeout_add_seconds(1, Lang.bind(this, function (){
+    let _eventLoop = Mainloop.timeout_add_seconds(1, Lang.bind(this, function (){
          _updateMenubar();
          return true;
     }));
