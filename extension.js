@@ -31,7 +31,6 @@ function enable() {
 function _updateMenubar() {
     getData().then(function(response) {
         let signalStrength = response["signalIcon"];
-        global.log("Got signal strength: " + signalStrength);
         _indicator.iconChanged('signal-' + signalStrength);
         _indicator.show();
     }, function(error) {
