@@ -10,7 +10,7 @@ const getData = Me.imports.huawei._getHuaweiStatus;
 const Mainloop = imports.mainloop;
 const Lang = imports.lang;
 
-let _indicator;
+let _indicator, _backgroundUpdateTag;
 
 function init(extensionMeta) {
     let theme = imports.gi.Gtk.IconTheme.get_default();
@@ -18,11 +18,10 @@ function init(extensionMeta) {
 }
 
 function enable() {
-    _indicator = new HuaweiStatusMenuItem({"name": "Huawei Status"});
-
     let pollIntervalInSeconds = 2;
-    Main.panel.addToStatusArea('huawei-status-menu', _indicator, pollIntervalInSeconds, 'right');
-    let _eventLoop = Mainloop.timeout_add_seconds(1, Lang.bind(this, function (){
+    _indicator = new HuaweiStatusMenu();
+    Main.panel.addToStatusArea('huawei-status-menu', _indicator, 0, 'right');
+    _backgroundUpdateTag = Mainloop.timeout_add_seconds(pollIntervalInSeconds, Lang.bind(this, function (){
          _updateMenubar();
          return true;
     }));
@@ -31,40 +30,38 @@ function enable() {
 function _updateMenubar() {
     getData().then(function(response) {
         let signalStrength = response["signalIcon"];
-        _indicator.iconChanged('signal-' + signalStrength);
-        _indicator.show();
+        _indicator.changeIcon('signal-' + signalStrength);
+        _indicator.actor.show();
     }, function(error) {
-        _indicator.hide();
+        global.log("ERROR");
+        for (func in _indicator) {
+            global.log(func);
+        }
+        _indicator.actor.hide();
     });
 }
 
 function disable() {
     _indicator.destroy();
+    Mainloop.source_remove(_backgroundUpdateTag);
 }
 
-const HuaweiStatusMenuItem = new Lang.Class({
-    Name: 'HuaweiStatusMenuItem',
+const HuaweiStatusMenu = new Lang.Class({
+    Name: 'HuaweiStatusMenu',
     Extends: PanelMenu.Button,
 
-    _init: function(info) {
-	this.parent();
-	this._info = info;
-        this._icon = new St.Icon({ icon_name: 'signal-1',
-                             style_class: 'system-status-icon' });
+    _init: function() {
+        this.parent(0.0, "Huawei Status");
+        this._icon = new St.Icon({ icon_name: 'signal-0',
+                             style_class: 'system-status-icon huawei-status-icon' });
 	this.actor.add_child(this._icon);
     },
-
-    activate: function(event) {
-	this._info.launch(event.get_time());
-	this.parent(event);
-    },
-
 
     destroy: function() {
         this.parent();
     },
 
-    iconChanged: function(newIcon) {
+    changeIcon: function(newIcon) {
         this._icon.set_icon_name(newIcon);
     },
 });
