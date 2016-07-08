@@ -43,12 +43,11 @@ function _extractDataFromStatusXML(theStatusXML) {
     let wifiUsers = oxml.rootElement.childElement("CurrentWifiUser").text;
     let networkType = oxml.rootElement.childElement("CurrentNetworkType").text;
     let signalIcon = oxml.rootElement.childElement("SignalIcon").text;
-
-	global.log(networkType);
     return {
 	"networkType": _getNetworkType(networkType),
         "wifiUsers": wifiUsers,
-        "signalIcon" : signalIcon
+        "batteryPercentage" : batteryPercentage,
+        "signalIcon" : signalIcon,
     };
 }
 

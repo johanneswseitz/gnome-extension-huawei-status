@@ -10,7 +10,7 @@ const getData = Me.imports.huawei._getHuaweiStatus;
 const Mainloop = imports.mainloop;
 const Lang = imports.lang;
 
-let _indicator, _backgroundUpdateTag, _batteryEntry, _messageEntry, _usersEntry;
+let _indicator, _backgroundUpdateTag, _batteryEntry, _usersEntry;
 
 function init(extensionMeta) {
     let theme = imports.gi.Gtk.IconTheme.get_default();
@@ -33,10 +33,22 @@ function _updateMenubar() {
         let signalStrength = response["signalIcon"];
         _indicator.changeIcon('signal-' + signalStrength);
 	_indicator.changeNetworkLabel(response["networkType"]);
+        _batteryEntry.changeLabel(_("Battery at %s%").format(response.batteryPercentage));
+        _usersEntry.changeLabel(getUsersLabel(response.wifiUsers));
         _indicator.actor.show();
     }, function(error) {
         _indicator.actor.hide();
     });
+}
+
+function getUsersLabel(numberOfUsers) {
+    if (numberOfUsers == 0) {
+        return _("No users");
+    } else if (numberOfUsers == 1) {
+        return _("1 User connected");
+    } else {
+        return _("%s Users connected").format(numberOfUsers);
+    }
 }
 
 function disable() {
@@ -63,8 +75,6 @@ const HuaweiStatusMenu = new Lang.Class({
 	this.menu.addMenuItem(_batteryEntry);
 	_usersEntry = new HuaweiMenuItem({icon : "network-wireless", label : _("NO DATA")});
 	this.menu.addMenuItem(_usersEntry);
-	_messageEntry = new HuaweiMenuItem({icon : "mail-unread", label : _("NO DATA")});
-	this.menu.addMenuItem(_messageEntry);
     },
 
     changeIcon: function(newIcon) {
@@ -98,12 +108,12 @@ const HuaweiMenuItem = new Lang.Class({
         this.actor.add_child(this._label);
     },
 
-    setIcon: function(newIconName) {
+    changeLabel: function(newIconName) {
 	this._icon.set_icon_name(newIconName);
     },
 
-    setLabel: function(newLabelText) {
-	this._label.set_text(_(newLabelText));
+    changeLabel: function(newLabelText) {
+	this._label.set_text(newLabelText);
     },
 
     activate: function(event) {
