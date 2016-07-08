@@ -21,7 +21,7 @@ function enable() {
     let pollIntervalInSeconds = 2;
     _indicator = new HuaweiStatusMenu();
     _updateMenubar();
-    Main.panel.addToStatusArea('huawei-status-menu', _indicator, 0, 'right');
+    Main.panel.addToStatusArea('huawei-status-menu', _indicator, 1);
     _backgroundUpdateTag = Mainloop.timeout_add_seconds(pollIntervalInSeconds, Lang.bind(this, function (){
          _updateMenubar();
          return true;
@@ -73,7 +73,7 @@ const HuaweiStatusMenu = new Lang.Class({
         this.actor.add_actor(hbox);
 	_batteryEntry = new HuaweiMenuItem({icon : "battery", label : _("NO DATA")});
 	this.menu.addMenuItem(_batteryEntry);
-	_usersEntry = new HuaweiMenuItem({icon : "network-wireless", label : _("NO DATA")});
+	_usersEntry = new HuaweiMenuItem({icon : "system-users", label : _("NO DATA")});
 	this.menu.addMenuItem(_usersEntry);
     },
 
