@@ -2,7 +2,13 @@
 
 A Gnome Extension to display the status of a Huawei MIFI. Tested with the Huawei Mobile Wifi model E5573s-320. Might also work with other models.
 
+* Displays the signal strength and network (2G,3G,4G)
+* Displays the battery percentage
+* Displays the Number of connected users
+* Disappears automatically when you are not connected to a Huawei Mifi
+
 ![Screenshot](/screenshot.png?raw=true "Screenshot")
+
 
 # Legal Stuff
 
