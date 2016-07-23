@@ -71,9 +71,9 @@ const HuaweiStatusMenu = new Lang.Class({
                                    y_align: Clutter.ActorAlign.CENTER });
 	hbox.add_child(this._connectionLabel);
         this.actor.add_actor(hbox);
-	_batteryEntry = new HuaweiMenuItem({icon : "battery", label : _("NO DATA")});
+	_batteryEntry = new HuaweiMenuItem({icon : "battery-symbolic", label : _("NO DATA")});
 	this.menu.addMenuItem(_batteryEntry);
-	_usersEntry = new HuaweiMenuItem({icon : "system-users", label : _("NO DATA")});
+	_usersEntry = new HuaweiMenuItem({icon : "system-users-symbolic", label : _("NO DATA")});
 	this.menu.addMenuItem(_usersEntry);
     },
 
