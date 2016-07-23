@@ -33,12 +33,23 @@ function _updateMenubar() {
         let signalStrength = response["signalIcon"];
         _indicator.changeIcon('signal-' + signalStrength);
 	_indicator.changeNetworkLabel(response["networkType"]);
-        _batteryEntry.changeLabel(_("Battery at %s%").format(response.batteryPercentage));
         _usersEntry.changeLabel(getUsersLabel(response.wifiUsers));
+        _updateBatteryStatus(response.batteryPercentage, response.batteryStatus);
         _indicator.actor.show();
     }, function(error) {
         _indicator.actor.hide();
     });
+}
+
+
+function _updateBatteryStatus(percentage, batteryStatus) {
+    if (batteryStatus == 1) {
+        _batteryEntry.changeLabel(_("Charging %s%").format(percentage));
+        _batteryEntry.changeIcon("battery-full-charging-symbolic");
+    } else {
+        _batteryEntry.changeLabel(_("Battery at %s%").format(percentage));
+        _batteryEntry.changeIcon("battery-full-symbolic");
+    }
 }
 
 function getUsersLabel(numberOfUsers) {
@@ -108,7 +119,7 @@ const HuaweiMenuItem = new Lang.Class({
         this.actor.add_child(this._label);
     },
 
-    changeLabel: function(newIconName) {
+    changeIcon: function(newIconName) {
 	this._icon.set_icon_name(newIconName);
     },
 

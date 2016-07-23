@@ -43,10 +43,12 @@ function _extractDataFromStatusXML(theStatusXML) {
     let wifiUsers = oxml.rootElement.childElement("CurrentWifiUser").text;
     let networkType = oxml.rootElement.childElement("CurrentNetworkType").text;
     let signalIcon = oxml.rootElement.childElement("SignalIcon").text;
+    let batteryStatus = oxml.rootElement.childElement("BatteryStatus").text;
     return {
 	"networkType": _getNetworkType(networkType),
         "wifiUsers": wifiUsers,
         "batteryPercentage" : batteryPercentage,
+        "batteryStatus" : batteryStatus,
         "signalIcon" : signalIcon,
     };
 }
@@ -75,7 +77,7 @@ function _getNetworkType(networkType) {
  
     switch (networkType){
 	case NO_SERVICE:
-	    return "";
+	    return "No Service";
 	case GSM:
 	case GPRS:
 	case EDGE:
