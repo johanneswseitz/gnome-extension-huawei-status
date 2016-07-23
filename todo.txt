@@ -1,3 +1,4 @@
-- Battery percentage & charge status
-- Disable network backup during connection
+- Battery percentage should determine battery icon
+- Disable network backup during connection (should this really be THIS extension?)
 - Incoming text messages
+- Up- and downlink saturation and data usage
