@@ -8,7 +8,7 @@ A Gnome Extension to display the status of a Huawei MIFI. Tested with the Huawei
 * Disappears automatically when you are not connected to a Huawei Mifi
 
 ![Screenshot](/screenshot.png?raw=true "Screenshot")
-
+[Download at extensions.gnome.org](https://extensions.gnome.org/extension/1103/huawei-mifi-status-indicator/)
 
 # Legal Stuff
 
