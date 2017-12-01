@@ -11,6 +11,9 @@ A Gnome Extension to display the status of a Huawei MIFI. Tested with the Huawei
 
 [Download at extensions.gnome.org](https://extensions.gnome.org/extension/1103/huawei-mifi-status-indicator/)
 
+# Windows
+
+An alternative version based on electron exists - [samdenty99/Huawei-MiFi_tray-indicator](https://github.com/samdenty99/Huawei-MiFi_tray-indicator)
 # Legal Stuff
 
 promise.js is part of the gjs-helpers, licensed under the GNU GPL. Fore more information see https://github.com/satya164/gjs-helpers
